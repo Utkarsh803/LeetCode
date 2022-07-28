@@ -2,7 +2,7 @@ class Solution {
     public List<String> letterCombinations(String digits) {
         
         List<String> output = new ArrayList<String>();
-        List<String> temp = new ArrayList<String>();
+       
         HashMap<Integer,String> hash = new HashMap<Integer,String>();
         hash.put(2, "abc");
         hash.put(3, "def");
@@ -19,14 +19,12 @@ class Solution {
              
           String letters = hash.get(Integer.valueOf(digits));
              
-             String f = Character.toString(letters.charAt(0));
-             String s = Character.toString(letters.charAt(1));
-             String t = Character.toString(letters.charAt(2));
-              
-             output.add(f);
-             output.add(s);
-             output.add(t);
              
+             for(int y=0;y<letters.length();y++){
+                  String f = Character.toString(letters.charAt(y));
+                  output.add(f);
+             }
+            
          }
         
         else if(digits.length()==0){
@@ -37,25 +35,30 @@ class Solution {
             
             output.add("");
     
-            for(int i=0;i<digits.length();i++){
-            int number = Integer.parseInt(String.valueOf(digits.charAt(i)));
-                
-            if(number<2 && number>9){
-                return output;
-            }    
-            String letters = hash.get(number);
-                
+            output = findComb(digits, output, hash);  
             
-                //abc
-                
-            System.out.println(letters);
-            
-            System.out.println(output);
-
-             int length = output.size();   
-            for(int j=0;j<letters.length();j++){
+            return output;
+      }   
+   return output;
+    }
+    
+    
+    public List<String> findComb(String number,List<String> output, HashMap<Integer,String> hash){
+      
+        if(number.length()==0){
+            return output; 
+        }
+        
+        List<String> temp = new ArrayList<String>();
+        
+        int digit =  Integer.parseInt(String.valueOf(number.charAt(0)));
+        
+        String letters = hash.get(digit);
+        
+         for(int j=0;j<letters.length();j++){
                     
-                for(int l=0;l<length;l++){
+                for(int l=0;l<output.size();l++){
+                    
                     System.out.println("f"+output.get(l));
                     
                     System.out.println("s"+String.valueOf(letters.charAt(j)));
@@ -64,17 +67,15 @@ class Solution {
                     
                      System.out.println(element);
                     
-                    output.add(element);
+                    temp.add(element);
               }
-                     System.out.println("output");
+                    
                     
            }
-
-   
-        }      
-            return output;
-      }   
-   return output;
+            
+        number=number.substring(1,number.length());
+        List<String> finl = findComb(number, temp, hash);
+        
+        return finl;
     }
-    
 }
